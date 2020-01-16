@@ -1,0 +1,8 @@
+{
+  "temperature": "temperature",
+  "humidity": "humidity",
+  "KSCFH": "KSCFH",
+  "KSCF": "KSCF",
+  "fahrenheit": "°F",
+  "percentage": "%"
+}
