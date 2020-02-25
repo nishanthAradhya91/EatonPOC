@@ -4,11 +4,13 @@ import HeroBanner from "@pxblue/react-components/core/HeroBanner";
 import InfoListItem from "@pxblue/react-components/core/InfoListItem";
 import ScoreCard from "@pxblue/react-components/core/ScoreCard";
 import Info from "@material-ui/icons/Info";
+import "./stationcards.css";
 import {
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
+  Grid
 } from "@material-ui/core";
 import { ChevronRight, MoreVert, CloudCircle } from "@material-ui/icons";
 import * as Colors from "@pxblue/colors";
@@ -22,11 +24,14 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import top from "../../topology_40.png";
 import constants from "../../constants";
+
 // To Fetch the Station Card
 const FetchStationHeroCard = stationData => {
+  debugger;
   const isTemperature =
-    Object.keys(stationData.values)[0] === constants.temperature;
-  const isHumidity = Object.keys(stationData.values)[1] === constants.humidity;
+    Object.keys(stationData.values)[constants.zero] === constants.temperature;
+  const isHumidity =
+    Object.keys(stationData.values)[constants.one] === constants.humidity;
   return (
     <HeroBanner htmlColor={Colors.white[50]} style={{ minWidth: 210 }}>
       <Hero
@@ -37,10 +42,12 @@ const FetchStationHeroCard = stationData => {
             <Flow fontSize={"inherit"} htmlColor={Colors.black[100]} />
           )
         }
-        label={Object.keys(stationData.values)[0]}
+        label={Object.keys(stationData.values)[constants.zero]}
         iconSize={48}
-        value={stationData.values[Object.keys(stationData.values)[0]]}
-        units={isTemperature ? constants.fahrenheit : constants.KSCFH}
+        value={
+          stationData.values[Object.keys(stationData.values)[constants.zero]]
+        }
+        units={isTemperature ? constants.fahrenheit : " " + constants.KSCFH}
       />
       <Hero
         icon={
@@ -50,9 +57,11 @@ const FetchStationHeroCard = stationData => {
             <GasCylinder fontSize={"inherit"} htmlColor={Colors.blue[300]} />
           )
         }
-        label={Object.keys(stationData.values)[1]}
-        value={stationData.values[Object.keys(stationData.values)[1]]}
-        units={isHumidity ? constants.percentage : constants.KSCF}
+        label={Object.keys(stationData.values)[constants.one]}
+        value={
+          stationData.values[Object.keys(stationData.values)[constants.one]]
+        }
+        units={isHumidity ? constants.percentage : " " + constants.KSCF}
         iconSize={48}
       />
     </HeroBanner>
@@ -61,85 +70,74 @@ const FetchStationHeroCard = stationData => {
 
 // To Fetch the InfoListItem Card
 const FetchInfoList = sationData => {
+  const isAlaramCount = sationData.alarmCount === constants.zero;
+  const isEventCount = sationData.eventCount === constants.zero;
   return (
-    <List style={{ padding: "16px 0" }}>
+    <List>
       <InfoListItem
         dense
-        style={{ height: 36 }}
-        fontColor={
-          sationData.alarmCount === 0 ? Colors.black[200] : Colors.red[500]
-        }
-        iconColor={Colors.red[500]}
-        title={sationData.alarmCount + " Alarm"}
+        className="infoItem"
+        fontColor={isAlaramCount ? Colors.black[200] : Colors.red[500]}
+        iconColor={isAlaramCount ? Colors.black[200] : Colors.red[500]}
+        title={sationData.alarmCount + constants.Alarm}
         icon={
-          sationData.alarmCount === 0 ? (
-            <NotificationsIcon style={{ color: "grey" }}></NotificationsIcon>
+          isAlaramCount ? (
+            <NotificationsIcon></NotificationsIcon>
           ) : (
-            <NotificationsActiveIcon
-              style={{ color: "red" }}
-            ></NotificationsActiveIcon>
+            <NotificationsActiveIcon></NotificationsActiveIcon>
           )
         }
       />
       <InfoListItem
         dense
-        style={{ height: 36 }}
-        fontColor={
-          sationData.eventCount === 0 ? Colors.black[200] : Colors.blue[500]
-        }
-        iconColor={Colors.blue[500]}
-        title={sationData.eventCount + " Event"}
-        icon={
-          <Info
-            style={{
-              color: sationData.eventCount === 0 ? "grey" : "aquablue",
-              transform: [{ rotate: "90deg" }]
-            }}
-          />
-        }
+        className="infoItem"
+        fontColor={isEventCount ? Colors.black[200] : Colors.blue[500]}
+        iconColor={isEventCount ? Colors.black[200] : Colors.blue[500]}
+        title={sationData.eventCount + constants.Event}
+        icon={<Info />}
       />
       <InfoListItem
         dense
-        style={{ height: 36 }}
+        className="infoItem"
         title={"Online"}
         icon={<CloudCircle color={"inherit"} />}
       />
     </List>
   );
 };
-class StationCard extends React.Component {
-  render() {
-    return (
+// Main Card
+const StationCard = props => {
+  return (
+    <Grid item>
       <ScoreCard
-        style={{ maxWidth: 400 }}
         headerColor={
-          this.props.stationData.alarmCount === 0
+          props.stationData.alarmCount === 0
             ? Colors.blue[500]
             : Colors.red[500]
         }
         headerBackgroundImage={top}
-        headerTitle={this.props.stationData.title}
-        headerSubtitle={this.props.stationData.subtitle}
-        headerInfo={this.props.stationData.deviceCount + " Devices"}
+        headerTitle={props.stationData.title}
+        headerSubtitle={props.stationData.subtitle}
+        headerInfo={props.stationData.deviceCount + " Devices"}
         headerFontColor={Colors.white[50]}
-        actionItems={[<MoreVert onClick={() => alert("something did")} />]}
-        badge={FetchStationHeroCard(this.props.stationData)}
+        actionItems={[<MoreVert onClick={() => {}} />]}
+        badge={FetchStationHeroCard(props.stationData)}
         badgeOffset={0}
         actionRow={
-          <List style={{ margin: 0 }}>
+          <List>
             <ListItem>
               <ListItemText primary="View Location" />
               <ListItemSecondaryAction>
-                {" "}
-                <ChevronRight />{" "}
+                <ChevronRight />
               </ListItemSecondaryAction>
             </ListItem>
           </List>
         }
       >
-        {FetchInfoList(this.props.stationData)}
+        {FetchInfoList(props.stationData)}
       </ScoreCard>
-    );
-  }
-}
+    </Grid>
+  );
+};
+
 export default StationCard;

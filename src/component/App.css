@@ -1,0 +1,10 @@
+.appStyle {
+  margin-top: 6px !important;
+  margin-right: 6px !important;
+}
+.wrapDiv {
+  display: "flex" !important;
+  max-width: "1200px" !important;
+  flex-wrap: "wrap" !important;
+  margin: " 0 auto" !important;
+}

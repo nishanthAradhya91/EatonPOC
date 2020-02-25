@@ -19,8 +19,8 @@
     "eventCount": 3,
     "commStatus": "Online",
     "values": {
-      "flow": 2.1,
-      "volume": 3000
+      "volume": 3000,
+      "flow": 2.1
     }
   },
   {
@@ -32,19 +32,19 @@
     "commStatus": "Online",
     "values": {
       "temperature": 112,
-      "humidity": 78
+      "flow": 0.1
     }
   },
   {
     "title": "Substation 4",
     "subtitle": "Disconnected",
-    "deviceCount": 0,
-    "alarmCount": 0,
-    "eventCount": 0,
+    "deviceCount": null,
+    "alarmCount": null,
+    "eventCount": null,
     "commStatus": "Offline",
     "values": {
-      "temperature": 0,
-      "humidity": 0
+      "temperature": null,
+      "humidity": null
     }
   },
   {

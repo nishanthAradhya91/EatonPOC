@@ -4,5 +4,9 @@
   "KSCFH": "KSCFH",
   "KSCF": "KSCF",
   "fahrenheit": "°F",
-  "percentage": "%"
+  "percentage": "%",
+  "zero": 0,
+  "one": 1,
+  "Alarm": "Alarm",
+  "Event": "Event"
 }
